@@ -37,3 +37,8 @@ npm run build --report
 
 For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
+
+## 遇到的坑
+- 在搜索框中绑定change 和 input事件的区别
+  change  输入框失去焦点触发
+  input 改变就触发

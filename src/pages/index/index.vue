@@ -1,126 +1,119 @@
 <template>
-  <div @click="clickHandle">
-
-    <div class="userinfo" @click="bindViewTap">
-      <img class="userinfo-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover" />
-      <img class="userinfo-avatar" src="/static/images/user.png" background-size="cover" />
-
-      <div class="userinfo-nickname">
-        <card :text="userInfo.nickName"></card>
+  <div class="index">
+    <!-- 头部搜索 -->
+    <div class="search">
+      <div @click="toMappage">{{cityName}}</div>
+      <div>
+        <input type="text"  placeholder="搜索商品">
+        <span class="icon"></span>
       </div>
     </div>
-
-    <div class="usermotto">
-      <div class="user-motto">
-        <card :text="motto"></card>
-      </div>
-    </div>
-
-    <form class="form-container">
-      <input type="text" class="form-control" :value="motto" placeholder="v-model" />
-      <input type="text" class="form-control" v-model="motto" placeholder="v-model" />
-      <input type="text" class="form-control" v-model.lazy="motto" placeholder="v-model.lazy" />
-    </form>
-
-    <a href="/pages/counter/main" class="counter">去往Vuex示例页面</a>
-
-    <div class="all">
-        <div class="left">
-        </div>
-        <div class="right">
-        </div>
+    <div class="swiper">
+      <swiper class="swiper-contaioner" indicator-dots="true" autoplay="true" interval="3000" circular="true" duration="500">
+        <block v-for="(item,index) in banner" :key="index">
+          <swiper-item class="swiper-item">
+            <img class="slide-image" :src="item.image_url" alt="">
+          </swiper-item>
+        </block>
+      </swiper>
     </div>
   </div>
 </template>
 
 <script>
-import card from '@/components/card'
-
+import amapFile from '../../utils/amap-wx'
+import { mapState , mapMutations} from  'vuex'
+import { get } from '../../utils'
 export default {
-  data () {
+  data() {
     return {
-      motto: 'Hello miniprograme',
-      userInfo: {
-        nickName: 'mpvue',
-        avatarUrl: 'http://mpvue.com/assets/logo.png'
-      }
+      banner: []
     }
   },
-
-  components: {
-    card
+  computed: {
+    ...mapState(['cityName'])
   },
-
+  create() {
+    this.getData();
+  },
   methods: {
-    bindViewTap () {
-      const url = '../logs/main'
-      if (mpvuePlatform === 'wx') {
-        mpvue.switchTab({ url })
-      } else {
-        mpvue.navigateTo({ url })
-      }
-    },
-    clickHandle (ev) {
-      console.log('clickHandle:', ev)
-      // throw {message: 'custom test'}
-    }
-  },
+    ...mapMutations(['update']),
+    toMappage() {
+      let _this = this;
+      //通过wx.getSetting 先查询用户是否授权 "scoped.record"
+      wx.getSetting({
+        success: (res) =>  {
+          // 如果没有同意授权，打开设置
+          console.log(res)
 
-  created () {
-    // let app = getApp()
+          if (!res.authSetting['scope.userLocation']) {
+            wx.openSetting({
+              success: res => {
+                // 获取授权信息
+                _this.getCityName();
+                // wx.showModal({
+                //   title: '提示',
+                //   content: '需要允许使用地理位置权限，请点击“确定”去授权后再使用位置。',
+                //   success(res) {
+                //     if (res.confirm) {
+                //       console.log('用户点击确定')
+
+                //       wx.openSetting({
+                //         success(res) {
+                //           console.log(res.authSetting)
+
+                //         }
+                //       })
+
+                //     } else if (res.cancel) {
+                //       console.log('用户点击取消')
+                //     }
+                //   }
+
+                // })
+              }
+            })
+          } else {
+            wx.navigateTo({
+              url: '/pages/mappage/main',
+            })
+            // _this.getCityName();
+          }
+        },
+        fail: (err) => {
+          console.log(err)
+        },
+        complete: () => {
+          
+        }
+      })
+    },
+    getCityName() {
+      var _this = this;
+      // 调用高德地图API
+      var myAmapFun = new amapFile.AMapWX({key: 'f6adc065492338434e017fb7762402f0'});
+      myAmapFun.getRegeo({
+        success: data => {
+          console.log(data )
+           _this.update({ cityName: data[0].regeocodeData.formatted_address });
+        },
+        fail: err => {
+          console.log(err)
+          // 默认
+          // _this.cityName = '北京'
+          _this.update({cityName: '北京'})
+        }
+      })
+    },
+
+    async getData() {
+      const data = await get('/index/index')
+      console.log(data)
+    }
   }
 }
 </script>
 
-<style scoped>
-.userinfo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.userinfo-avatar {
-  width: 128rpx;
-  height: 128rpx;
-  margin: 20rpx;
-  border-radius: 50%;
-}
-
-.userinfo-nickname {
-  color: #aaa;
-}
-
-.usermotto {
-  margin-top: 150px;
-}
-
-.form-control {
-  display: block;
-  padding: 0 12px;
-  margin-bottom: 5px;
-  border: 1px solid #ccc;
-}
-.all{
-  width:7.5rem;
-  height:1rem;
-  background-color:blue;
-}
-.all:after{
-  display:block;
-  content:'';
-  clear:both;
-}
-.left{
-  float:left;
-  width:3rem;
-  height:1rem;
-  background-color:red;
-}
-
-.right{
-  float:left;
-  width:4.5rem;
-  height:1rem;
-  background-color:green;
-}
+<style lang="less" scoped>
+@import "./style.less";
 </style>
