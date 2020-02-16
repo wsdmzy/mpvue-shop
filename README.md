@@ -42,3 +42,6 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
 - 在搜索框中绑定change 和 input事件的区别
   change  输入框失去焦点触发
   input 改变就触发
+
+- 报错Failed to load resource: net::ERR_EMPTY_RESPONSE
+    关闭Google的adblock插件  因为拦截了

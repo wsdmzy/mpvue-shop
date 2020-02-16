@@ -86,7 +86,7 @@ export default {
             _this.tips = data.tips
           }
         }
-      }),500)
+      }),2000)
       
     },
     bindSearch(cityName) {
