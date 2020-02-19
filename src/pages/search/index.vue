@@ -3,14 +3,14 @@
     <div class="head">
       <div>
          <img src="http://nos.netease.com/mailpub/hxm/yanxuan-wap/p/20150730/style/img/icon-normal/search2-2fb94833aa.png" alt="">
-         <input type="text" confirm-type="search" focus="true" placeholder="商品搜索" 
+         <input type="text" confirm-type="search"   placeholder="商品搜索" ref="input"
                 v-model="words" @focus="inputFocus" @input="tipsearch" @confirm="searchWords">
          <img @click="clearInput" class="del" src="http://nos.netease.com/mailpub/hxm/yanxuan-wap/p/20150730/style/img/icon-normal/clearIpt-f71b83e3c2.png" alt="">
       </div>
       <div @click="cencel" >取消</div>
     </div>
-    <div class="searchtips" v-if="words">
-      <div v-for="(item,index) in tipsData" :key="index">
+    <div class="searchtips" v-if="words ">
+      <div v-for="(item,index) in tipsData" :key="index" @click="searchWords" :data-value="item.name">
         {{item.name}}
       </div>
       <div class="nogoods" v-show="tipsData.length === 0">数据库无此商品...</div>
@@ -44,7 +44,7 @@
         <div @click="changTab(2)" :class="{active: 2 === currentIndex}">分类</div>
       </div>
       <div class="sortlist">
-        <div class="item" v-for="(item,index) in listData" :key="index">
+        <div class="item" v-for="(item,index) in listData" :key="index" @click="goodsDetail(item.id)">
           <img :src="item.list_pic_url" alt="">
           <p class="name">{{item.name}}</p>
           <p class="price">￥{{item.retail_price}}</p>
@@ -69,20 +69,25 @@ export default {
       tipsData: [],
       order: '',
       listData: [],
-      currentIndex: 0
+      currentIndex: 0,
+      
     }
   },
   mounted() {
     this.openid = wx.getStorageSync('openId') || '';
-
     this.getHotData();
+    // console.log('111')
   },
   methods: {
     clearInput() {
       this.words = '';
       this.listData = []
     },
-    cencel() {},
+    cencel() {
+      wx.navigateBack({
+        delta: 1, // 回退前 delta(默认为1) 页面 
+      })
+    },
     async clearHistory() {
       const data = await post('/search/clearhistoryAction', {
         openId: this.openid
@@ -92,8 +97,15 @@ export default {
         this.historyData = []
       }
     },
-    inputFocus() {},
+    inputFocus() {
+
+      // 商品清空
+      this.listData = []
+      // 展示搜索提示信息
+      this.tipsearch();
+    },
     async tipsearch() {
+      
       const data = await get('/search/helperaction', {
         keyword: this.words
       })
@@ -129,7 +141,7 @@ export default {
       })
       this.listData = data.keywords
       this.tipsData = []
-      console.log(data)
+      // console.log(data)
     },
     changTab(index) {
       this.currentIndex = index
@@ -139,6 +151,15 @@ export default {
         this.order = ''
       }
       this.getListData();
+    },
+    goodsDetail(id) {
+      // console.log(id)
+      wx.navigateTo({
+          url: '/pages/goods/main?id=' + id, 
+          success: function() {
+            // this.isFocus = false
+          }
+      })
     }
   }
 }
