@@ -42,7 +42,7 @@
 
     <!-- 图片展示 -->
     <div class="detail" v-if="goods_desc">
-      <wxParse :content="goods_desc"  />
+      <wxParse :content="goods_desc" />
     </div>
 
     <!-- 常见问题 -->
@@ -90,7 +90,7 @@
           <p>请选择数量</p>
         </div>
       </div>
-      <div class="close" @click="showType">x</div>
+      <div class="close" @click="showType">X</div>
     </div>
     <div class="b">
       <p>数量</p> 
@@ -108,13 +108,13 @@
       <div class="collect " :class="{active: collectFlag}"></div>
     </div>
     <div class="car-box"> 
-      <div class="car">
-        <span>3</span>
+      <div class="car" @click="toCar">
+        <span>{{allNum}}</span>
         <img src="/static/images/ic_menu_shoping_nor.png" alt="">
       </div>
     </div>
-    <div>立即购买</div>
-    <div>加入购物车</div>
+    <div @click="buy">立即购买</div>
+    <div @click="addcart">加入购物车</div>
   </div>
     
   </div>
@@ -136,12 +136,15 @@ export default {
       info: {},
       brand: {},
       showpop: false,
-      number: 1,
+      number: 0,
       attribute: [],
       goods_desc: '',
       issueList: [], //常见问题
       productList: [],
-      collectFlag: false
+      collectFlag: false,
+      allNum: 0,
+      allPrice: 0,
+      goodsId: 0
     }
   },
   // 商品分享
@@ -155,12 +158,14 @@ export default {
   },
   mounted() {
     this.openId = wx.getStorageSync('openId') || '';
+    // this.id = this.$root.query.id;  原生
+    this.id = this.$root.$mp.query.id;
     this.goodsDetail()
   },
   methods: {
     async goodsDetail() {
       const data = await get('/goods/detailcation', {
-        id: 1009024,
+        id: this.id,
         openId: this.openId
       })
       console.log(data);
@@ -168,9 +173,12 @@ export default {
       this.info = data.info,
       this.attribute = data.attribute
       this.goods_desc = data.info.goods_desc
+      this.goodsId = data.info.id
       this.issueList = data.issue,
       this.productList = data.productList,
       this.collectFlag = data.collected
+      this.allNum = data.allNum
+      this.allPrice = data.info.retail_price
     },
     showType() {
       this.showpop = !this.showpop
@@ -189,9 +197,80 @@ export default {
       this.collectFlag = !this.collectFlag
       const data = await post('/collect/addcollect', {
         openId: this.openId,
-        goodsId: this.info.id
+        goodsId: this.goodsId
       })
-      console.log(data)
+      // console.log(data)
+    },
+    toCar() {
+      // 跳转导航栏页面
+      wx.switchTab({
+        url: '/pages/cart/main',
+       
+      })
+    },
+    async buy() {
+      if (this.showpop) {
+        if (this.number === 0) {
+          wx.showToast({
+            title: '请选择商品数量',
+            duration: 2000,
+            icon: 'none',
+            mask: true,
+            success: () => {}
+          })
+          return false
+        }
+        const data = await post('/order/submitAction', {
+          goodsId: this.info.id,
+          openId: this.openId,
+          allPrice: this.allPrice
+        })
+        // console.log(data)
+        if (data) {
+          wx.navigateTo({
+            url: '/pages/order/main',
+          })
+        }
+      } else {
+        this.showpop = true
+      }
+    },
+    async addcart() {
+      let _this = this
+      if (this.showpop) {
+        
+        if (this.number === 0) {
+          wx.showToast({
+            title: '请选择商品数量',
+            duration: 2000,
+            icon: 'none',
+            mask: true,
+            success: () => {}
+          })
+          return false
+        }
+        const data = await post('/cart/addCart', {
+          openId: this.openId,
+          goodsId: this.goodsId,
+          number: this.number
+        })
+        // console.log(data)
+        if (data) {
+          this.allNum = this.allNum + this.number;
+          wx.showToast({
+            title: '添加购物车成功',
+            icon: 'success',
+            duration: 1500,
+            success: function() {
+              _this.showpop = false
+            }
+          })
+        }
+      
+
+      } else {
+        this.showpop = true
+      }
     }
   }
 }

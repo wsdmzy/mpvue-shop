@@ -45,3 +45,6 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
 
 - 报错Failed to load resource: net::ERR_EMPTY_RESPONSE
     关闭Google的adblock插件  因为拦截了
+
+- mpvue-pasrse 警告解决
+  将小程序中依赖wxParse.vue.wxml 中的wx:key="node.index" 改为index

@@ -58,3 +58,14 @@ export function post(url, data) {
   return request(url, "POST", data);
 }
 
+export function getSrorageOpenid() {
+  const openId = wx.getStorageSync('openId')
+  if (openId) {
+    return openId
+  } else {
+    return ''
+  }
+}
+
+
+
