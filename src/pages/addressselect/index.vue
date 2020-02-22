@@ -8,7 +8,7 @@
               <span>{{item.name}}</span>
               <div class="moren" v-if="item.is_default">默认</div>
             </div>
-            <div class="info">
+            <div class="info" @click="selAddress(item.id)">
               <p>{{item.mobile}}</p>
               <p>{{item.address+item.address_detail}}</p>
             </div>
@@ -77,6 +77,12 @@ export default {
       })
       console.log(data)
       this.listData = data.data
+    },
+    selAddress(id) {
+      wx.setStorageSync('addressId', id)
+      wx.navigateBack({
+        delta: 1, // 回退前 delta(默认为1) 页面
+      })
     }
   }
 }

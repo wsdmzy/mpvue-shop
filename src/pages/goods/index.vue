@@ -66,7 +66,7 @@
     <!-- 大家都在看 -->
   <div class="common-problem">
       <div class="h">
-        <text class="title">打家都在看</text>
+        <text class="title">大家都在看</text>
       </div>
       <div class="sublist">
         <div  v-for="(item,index) in productList" :key="index">
