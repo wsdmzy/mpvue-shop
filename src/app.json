@@ -1,6 +1,6 @@
 {
   "pages": [
-    "pages/topic/main",
+    "pages/category/main",
     "pages/index/main",
     "pages/search/main",
     "pages/mappage/main",
@@ -15,8 +15,8 @@
     "pages/cart/main",
     "pages/logs/main",
     "pages/counter/main",
-    
-    "pages/category/main",
+    "pages/topic/main",
+   
     
     "pages/my/main"
   ],

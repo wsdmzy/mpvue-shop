@@ -1,7 +1,7 @@
 <template>
   <div class="categorylist">
     <scroll-view scroll-x="true" class="head" :scroll-left="scrollLeft"  >
-      <div v-for="(item,index) in navData" :key="index" :class="{active: item.id == currentNav.id}" @click="clickNav(index,item.id)">
+      <div v-for="(item,index) in navData" :key="index" :class="{active: index == currentIndex}" @click="clickNav(index,item.id)">
         {{item.name}}
       </div>
     </scroll-view>
@@ -29,12 +29,17 @@ export default {
       categoryId: '',
       currentNav: '',
       goodsList: [],
-      scrollLeft: 0
+      scrollLeft: 0,
+      currentIndex : 0
     }
   },
   onShow() {
     //获取页面传递的参数
   this.categoryId = this.$root.$mp.query.id
+  let index = this.$root.$mp.query.index
+  if (index != null) {
+    this.currentIndex = index
+  }
   this.getAllData()
   },
   methods: {
@@ -42,11 +47,11 @@ export default {
       const data = await get('/category/categoryNav', {
         id: this.categoryId
       })
-      // console.log(data)
+      console.log(data)
       this.navData = data.navData;
-      this.currentNav = data.currentNav
+      this.currentNav = data.currentNav;
       // 找到活跃的下标
-      let index = 0
+      let index = -1
       for (let i = 0; i < this.navData.length; i++) {
         if (this.navData[i].id == this.currentNav.id) {
           index = i;
@@ -54,6 +59,8 @@ export default {
       }
       // console.log(index)
       // 获取商品
+      if (index != -1)
+        this.currentIndex = index
       this.getListData(index)
     },
     async getListData(index) {
@@ -71,6 +78,7 @@ export default {
       }
     },
     clickNav(index,id) {
+      this.currentIndex = index
       this.navData.forEach(item => {
         if (id == item.id) {
           this.currentNav = item;
