@@ -23,10 +23,14 @@
     "build": "node build/build.js wx"
   },
   "dependencies": {
+<<<<<<< HEAD
     "less": "^3.11.1",
     "less-loader": "^5.0.0",
     "mpvue": "^2.0.0",
     "mpvue-wxparse": "^0.6.5",
+=======
+    "mpvue": "^2.0.0",
+>>>>>>> b619e98e9bc4bb0ade9204a13dcead43cab7a7fd
     "vuex": "^3.0.1"
   },
   "devDependencies": {
@@ -49,11 +53,14 @@
     "glob": "^7.1.2",
     "html-webpack-plugin": "^3.2.0",
     "http-proxy-middleware": "^0.18.0",
+<<<<<<< HEAD
     "mkdirp": "^0.5.1",
     "mpvue-loader": "^2.0.0",
     "mpvue-parse": "^0.6.6",
     "mpvue-template-compiler": "^2.0.0",
     "mpvue-webpack-target": "^1.0.3",
+=======
+>>>>>>> b619e98e9bc4bb0ade9204a13dcead43cab7a7fd
     "optimize-css-assets-webpack-plugin": "^3.2.0",
     "ora": "^2.0.0",
     "portfinder": "^1.0.13",
@@ -68,12 +75,25 @@
     "uglifyjs-webpack-plugin": "^1.2.5",
     "url-loader": "^1.0.1",
     "vue-style-loader": "^4.1.0",
+<<<<<<< HEAD
     "webpack": "^3.11.0",
     "webpack-bundle-analyzer": "^2.2.1",
     "webpack-dev-middleware-hard-disk": "^1.12.0",
     "webpack-merge": "^4.1.0",
     "webpack-mpvue-asset-plugin": "^2.0.0",
     "webpack-mpvue-vendor-plugin": "^2.0.0"
+=======
+    "mkdirp": "^0.5.1",
+    "mpvue-loader": "^2.0.0",
+    "mpvue-template-compiler": "^2.0.0",
+    "mpvue-webpack-target": "^1.0.3",
+    "webpack-mpvue-vendor-plugin": "^2.0.0",
+    "webpack-mpvue-asset-plugin": "^2.0.0",
+    "webpack-bundle-analyzer": "^2.2.1",
+    "webpack-dev-middleware-hard-disk": "^1.12.0",
+    "webpack-merge": "^4.1.0",
+    "webpack": "^3.11.0"
+>>>>>>> b619e98e9bc4bb0ade9204a13dcead43cab7a7fd
   },
   "engines": {
     "node": ">= 4.0.0",

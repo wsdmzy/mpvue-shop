@@ -1,5 +1,8 @@
 # mpvue-shop
+<<<<<<< HEAD
 mpvue实现网易严选小程序前端
+=======
+>>>>>>> b619e98e9bc4bb0ade9204a13dcead43cab7a7fd
 
 > A Mpvue project
 
@@ -36,6 +39,7 @@ npm run build --report
 ```
 
 For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+<<<<<<< HEAD
 
 
 ## 遇到的坑
@@ -48,3 +52,5 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
 
 - mpvue-pasrse 警告解决
   将小程序中依赖wxParse.vue.wxml 中的wx:key="node.index" 改为index
+=======
+>>>>>>> b619e98e9bc4bb0ade9204a13dcead43cab7a7fd
