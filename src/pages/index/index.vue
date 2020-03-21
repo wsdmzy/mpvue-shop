@@ -112,7 +112,7 @@
       <div class="list" v-for="(item,index) in newCategoryList" :key="index">
         <div class="head">{{item.name}}好物</div>
         <div class="sublist" >
-          <div v-for="(subitem, indey) in item.goodsList" :key="indey">
+          <div v-for="(subitem, indey) in item.goodsList" :key="indey" @click="goodsDetail(subitem.id)">
             <img :src="subitem.list_pic_url" alt="">
             <p>{{subitem.name}}</p>
             <p>{{subitem.retail_price}}</p>
@@ -256,7 +256,9 @@ export default {
       }
     },
     goodsDetail(id) {
-
+      wx.navigateTo({
+          url: '/pages/goods/main?id=' + id, 
+      })
     },
     topicdetail(id) {
       wx.navigateTo({

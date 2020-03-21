@@ -12,7 +12,7 @@ export default {
       city: "Changping",
       province: "Beijing",
       country: "China",
-      avatarUrl: "https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTIbWFEIJj8IpGeHM7dGic1aTFZALjWcMm9ltWfFiaQfVRYticWBfgGfzXWMt2EkJWiaicPtftHAlWxUibxQ/132",
+      avatarUrl: "https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2841648446,236398816&fm=26&gp=0.jpg",
       watermark: { timestamp: 1535513485, appid: "wx601ce71bde7b9add" }
     };
     var openId = userInfo.openId;

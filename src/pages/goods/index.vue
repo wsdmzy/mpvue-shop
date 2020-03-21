@@ -143,7 +143,7 @@ export default {
       productList: [],
       collectFlag: false,
       allNum: 0,
-      allPrice: 0,
+      // allPrice: 0,
       goodsId: 0
     }
   },
@@ -178,7 +178,7 @@ export default {
       this.productList = data.productList,
       this.collectFlag = data.collected
       this.allNum = data.allNum
-      this.allPrice = data.info.retail_price
+      // this.allPrice = data.info.retail_price
     },
     showType() {
       this.showpop = !this.showpop
@@ -223,10 +223,15 @@ export default {
         const data = await post('/order/submitAction', {
           goodsId: this.info.id,
           openId: this.openId,
-          allPrice: this.allPrice
+          // allPrice: this.allPrice
         })
         // console.log(data)
         if (data) {
+          await post('/cart/addCart', {  //默认加入购物车
+            openId: this.openId,
+            goodsId: this.goodsId,
+            number: this.number
+          })
           wx.navigateTo({
             url: '/pages/order/main',
           })

@@ -67,5 +67,22 @@ export function getSrorageOpenid() {
   }
 }
 
+export function login() {
+  const userInfo = wx.getStorageSync('userInfo')
+  if (userInfo) {
+    return userInfo
+  }
+}
+
+export function toLogin() {
+  const userInfo = wx.getStorageSync('userInfo')
+  if (!userInfo) {
+    wx.navigateTo({
+      url: '/pages/login/main'
+    })
+  } else {
+    return true
+  }
+}
 
 

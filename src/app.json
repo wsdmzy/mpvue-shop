@@ -1,6 +1,7 @@
 {
   "pages": [
-    "pages/category/main",
+    
+    "pages/my/main",
     "pages/index/main",
     "pages/search/main",
     "pages/mappage/main",
@@ -16,9 +17,10 @@
     "pages/logs/main",
     "pages/counter/main",
     "pages/topic/main",
-   
+    "pages/feedback/main",
+    "pages/category/main"
     
-    "pages/my/main"
+   
   ],
   "window": {
     "backgroundTextStyle": "light",
