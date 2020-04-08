@@ -2,7 +2,6 @@
 export default {
   created () {
     // 调用API从本地缓存中获取数据
-<<<<<<< HEAD
      // 调用API从本地缓存中获取数据
  
     var userInfo = {
@@ -20,8 +19,6 @@ export default {
     wx.setStorageSync("userInfo", userInfo);
     wx.setStorageSync("openId", openId);
    
-=======
->>>>>>> b619e98e9bc4bb0ade9204a13dcead43cab7a7fd
     /*
      * 平台 api 差异的处理方式:  api 方法统一挂载到 mpvue 名称空间, 平台判断通过 mpvuePlatform 特征字符串
      * 微信：mpvue === wx, mpvuePlatform === 'wx'
@@ -67,7 +64,6 @@ export default {
   -webkit-transition: width 2s;
   -o-transition: width 2s;
 }
-<<<<<<< HEAD
 page {
   background: #f4f4f4;
   height: 100%;
@@ -97,6 +93,4 @@ view,text {
 .wxParse .img {
   display: block !important;
 }
-=======
->>>>>>> b619e98e9bc4bb0ade9204a13dcead43cab7a7fd
 </style>
